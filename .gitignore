@@ -117,6 +117,5 @@ src/static/
 .env
 .env.local
 .env.db
-db.sqlite*
 
 pgdata
