@@ -1,4 +1,5 @@
 from django import template
+from django.utils.datastructures import MultiValueDictKeyError
 
 from tree_menu.models import Item
 
@@ -7,23 +8,25 @@ register = template.Library()
 
 @register.inclusion_tag("nested_menu.html", takes_context=True)
 def draw_menu(context, menu_name):
-
     items = Item.objects.select_related("menu").filter(menu__title=menu_name)
     items_listed = (list(items.values()))
     items_id_dict = {item["id"]: item for item in items_listed}
-
     primary_items = [item for item in items_listed if item.get("parent_id") is None]
-    selected_item_id = int(context["request"].GET[menu_name])
-    selected_item_id_list = get_selected_item_id_list(items_id_dict, primary_items, selected_item_id)
 
-    for item in primary_items:
-        if item["id"] in selected_item_id_list:
-            item["child_items"] = get_child_items(items_listed, item["id"], selected_item_id_list)
+    try:
+        selected_item_id = int(context["request"].GET[menu_name])
+    except MultiValueDictKeyError:
+        pass  # on start page we need only primary_items so this exception can be passed for DRY reasons
+    else:
+        selected_item_id_list = get_selected_item_id_list(items_id_dict, primary_items, selected_item_id)
+
+        for item in primary_items:
+            if item["id"] in selected_item_id_list:
+                item["child_items"] = get_child_items(items_listed, item["id"], selected_item_id_list)
 
     result_dict = {"items": primary_items}
     result_dict["menu"] = menu_name
     result_dict["other_querystring"] = get_querystring(context, menu_name)
-
     return result_dict
 
 
