@@ -3,6 +3,7 @@ from app.conf.environ import env
 
 APPS = [
     "app",
+    "tree_menu",
 ]
 
 THIRD_PARTY_APPS = []
