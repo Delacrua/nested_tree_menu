@@ -17,43 +17,47 @@
 
 1. клонировать репозиторий
 
-`git clone https://github.com/Delacrua/nested_tree_menu.git`
+   `git clone https://github.com/Delacrua/nested_tree_menu.git`
 
-2. в директории /src проекта переименовать файл .env.example в .env
+2. перейти в директорию с проектом 
+
+   `cd nested_tree_menu`
+
+3. в директории /src проекта переименовать файл .env.example в .env
 
 
-3. Дальнейшие действия зависят от способа запуска:
+4. Дальнейшие действия зависят от способа запуска:
 
-    3.1. Для локального запуска последовательно выполнить команды:
+    4.1. Для локального запуска последовательно выполнить команды:
         
-        3.1.1. python -m venv venv (UNIX) 
+        4.1.1. python -m venv venv (UNIX) 
         или	
         python -m venv venv (Windows)
 
-        3.1.2. source venv/bin/activate (UNIX)
+        4.1.2. source venv/bin/activate (UNIX)
         или
         venv\Scripts\activate (Windows)
     
-        3.1.3. pip install -r src/dev-requirements.txt   
+        4.1.3. pip install -r src/dev-requirements.txt   
 
-        3.1.4. cd src
+        4.1.4. cd src
     
-        3.1.5. python manage.py runserver   
+        4.1.5. python manage.py runserver   
         
-        3.1.6. Перейти по адресу http://127.0.0.1:8000/menu/
+        4.1.6. Перейти по адресу http://127.0.0.1:8000/menu/
 
-    3.2. Для запуска из докер-контейнера последовательно выполнить команды (требуется установленный docker и docker-compose):
+    4.2. Для запуска из докер-контейнера последовательно выполнить команды (требуется установленный docker и docker-compose):
         
         Для запуска локального контейнера
-        3.2.1.1. make local-build 
+        4.2.1.1. make local-build 
 
-        3.2.1.2. make local-up 
+        4.2.1.2. make local-up 
 
-        3.2.1.2. Перейти по адресу http://127.0.0.1:8000/menu/
+        4.2.1.2. Перейти по адресу http://127.0.0.1:8000/menu/
 
         Для запуска контейнера под деплой
-        3.2.1. make release-build 
+        4.2.1. make release-build 
 
-        3.2.2. make release-up
+        4.2.2. make release-up
 
-        3.2.2. Перейти по адресу http://127.0.0.1:8002/menu/
+        4.2.2. Перейти по адресу http://127.0.0.1:8002/menu/
