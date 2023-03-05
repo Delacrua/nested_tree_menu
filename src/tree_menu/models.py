@@ -1,4 +1,5 @@
 from django.db import models
+from tree_menu import urls as menu_urls
 
 
 class Menu(models.Model):
@@ -16,10 +17,10 @@ class Menu(models.Model):
 class Item(models.Model):
 
     title = models.CharField(max_length=255, verbose_name="Item title")
-    slug = models.SlugField(max_length=255, verbose_name="Item slug")
+    slug = models.SlugField(max_length=255, verbose_name="Item slug", unique=True, db_index=True)
     menu = models.ForeignKey(Menu, blank=True, related_name="items", on_delete=models.CASCADE)
     parent = models.ForeignKey("self", blank=True, null=True, related_name="children", on_delete=models.CASCADE)
-    url = models.URLField(max_length=300, editable=False)
+    url = models.URLField(max_length=300, editable=False, blank=True)
 
     class Meta:
         verbose_name = "Menu item"
@@ -29,6 +30,7 @@ class Item(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.url = f"/menu/?&{str(self.menu)}={self.pk}"
+        if not self.pk:
+            super().save(*args, **kwargs)
+        self.url = f"/{menu_urls.app_name}/?&{str(self.menu)}={self.pk}"
         super().save(*args, **kwargs)
