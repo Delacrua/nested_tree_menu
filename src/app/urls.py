@@ -21,6 +21,7 @@ from app.conf.environ import env
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("tree_menu.urls")),
 ]
 
 if env("DEBUG", cast=bool, default=False):
