@@ -113,7 +113,7 @@ dmypy.json
 .idea
 
 venv
-static
+src/static/
 .env
 .env.local
 .env.db
