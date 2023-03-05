@@ -1,6 +1,7 @@
-from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.views.generic import TemplateView
+
 from tree_menu import models
 
 

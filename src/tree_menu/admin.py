@@ -9,7 +9,12 @@ from tree_menu.models import Menu
 class MenuItemAdmin(admin.ModelAdmin):
     list_display = ("title", "parent", "slug", "item_url")
     list_filter = ("menu",)
-    fieldsets = (("Add or edit item", {"fields": (("menu", "parent"), "title", "slug",)}),)
+    fieldsets = (
+        (
+            "Add or edit item",
+            {"fields": (("menu", "parent"), "title", "slug")},
+        ),
+    )
 
     def item_url(self, obj):
         return format_html("<a href='{url}'>{url}</a>", url=obj.url)

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from tree_menu.views import IndexPageView, slug_view
+from tree_menu.views import IndexPageView
+from tree_menu.views import slug_view
 
 app_name = "menu"
 

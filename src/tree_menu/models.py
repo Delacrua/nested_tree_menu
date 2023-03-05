@@ -1,4 +1,5 @@
 from django.db import models
+
 from tree_menu import urls as menu_urls
 
 
@@ -15,7 +16,6 @@ class Menu(models.Model):
 
 
 class Item(models.Model):
-
     title = models.CharField(max_length=255, verbose_name="Item title")
     slug = models.SlugField(max_length=255, verbose_name="Item slug", unique=True, db_index=True)
     menu = models.ForeignKey(Menu, blank=True, related_name="items", on_delete=models.CASCADE)
