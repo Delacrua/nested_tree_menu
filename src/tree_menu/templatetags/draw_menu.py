@@ -7,7 +7,7 @@ register = template.Library()
 
 
 @register.inclusion_tag("nested_menu.html", takes_context=True)
-def draw_menu(context, menu_name):
+def draw_menu(context: template.Context, menu_name: str) -> dict:
     """
     function takes context of a draw_menu call and a name of menu to draw and
     collects a data dict for rendering nested menu
@@ -34,15 +34,11 @@ def draw_menu(context, menu_name):
             if item["id"] in selected_item_id_list:
                 item["child_items"] = get_child_items(items_listed, item["id"], selected_item_id_list)
 
-    result_dict = {
-        "items": primary_items,
-        "menu": menu_name,
-        "other_querystring": get_querystring(context, menu_name)
-    }
+    result_dict = {"items": primary_items, "menu": menu_name, "other_querystring": get_querystring(context, menu_name)}
     return result_dict
 
 
-def get_querystring(context, menu_name):
+def get_querystring(context: template.Context, menu_name: str) -> str:
     """
     This function takes in two arguments, context and menu_name, and returns
     a string that represents the query string from the request that was not
@@ -58,7 +54,7 @@ def get_querystring(context, menu_name):
     return "&".join(querystring_args)
 
 
-def get_child_items(items_values, current_item_id, selected_item_id_list):
+def get_child_items(items_values: list[dict], current_item_id: int, selected_item_id_list: list[int]) -> list[dict]:
     """
     This function takes in three arguments: items_values, current_item_id, and
     selected_item_id_list. It returns a list of all child items that belong
@@ -75,12 +71,14 @@ def get_child_items(items_values, current_item_id, selected_item_id_list):
     return item_list
 
 
-def get_selected_item_id_list(items_id_dict, primary_item, selected_item_id):
+def get_selected_item_id_list(
+    items_id_dict: dict[int, dict], primary_items: list[dict], selected_item_id: int
+) -> list[int]:
     """
     This function takes in three arguments: items_id_dict, primary_item, and selected_item_id.
     It returns a list of ids for all the items that have been selected in the menu so far.
     :param items_id_dict: dictionary that maps the id of an item to the item's dictionary representation
-    :param primary_item: a list of dictionaries that represent the items that have no parent item
+    :param primary_items: a list of dictionaries that represent the items that have no parent item
     :param selected_item_id: the id of the item that was selected in the rendered menu
     :return: list of ids of items starting with the most recently selected item and working
     up the chain of parent items
@@ -92,7 +90,7 @@ def get_selected_item_id_list(items_id_dict, primary_item, selected_item_id):
         selected_item_id_list.append(parent_id)
         parent_id = items_id_dict[parent_id].get("parent_id")
     if not selected_item_id_list:
-        for item in primary_item:
+        for item in primary_items:
             if item["id"] == selected_item_id:
                 selected_item_id_list.append(selected_item_id)
     return selected_item_id_list
